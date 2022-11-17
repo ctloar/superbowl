@@ -1,6 +1,11 @@
 from django.db import models
 from datetime import datetime, timedelta
 
+# FORMS
+# add team
+# edit team
+# add team game
+
 # Create your models here.
 class game(models.Model):
     home_team_name = models.CharField(max_length=75)
@@ -11,7 +16,7 @@ class game(models.Model):
     home_team_score = models.IntegerField(max_length=20)
 
     def __str__(self):
-        return (self.description) 
+        return (self.result) 
 
 class team(models.Model):
     team_id = models.CharField(max_length=20)
