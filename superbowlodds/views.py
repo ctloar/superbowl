@@ -3,10 +3,10 @@ from django.http import HttpResponse
 
 # Create your views here.
 def indexPageView(request) :
-    return HttpResponse('LA Rams 2022 Champs! Boo Seahawks.')
+    return render(request, 'superbowlodds/index.html')
 
 def standingsPageView(request) :
-    return HttpResponse('NFL Standings')
+    return render(request, 'superbowlodds/standings.html')
 
 def votingPageView(request) :
-    return HttpResponse('Voting Process')
+    return render(request, 'superbowlodds/voting.html')
