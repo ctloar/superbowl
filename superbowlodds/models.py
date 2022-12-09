@@ -36,4 +36,11 @@ class nfl_team(models.Model):
     team_division_pre2002 = models.CharField(max_length=75, blank=True)
     games = models.ManyToManyField(nfl_scores, blank=True)
     def __str__(self):
-        return (self.team_id)
+        return (self.team_name)
+
+# class vote(models.Model):
+#     team = models.ForeignKey(nfl_team, on_delete = models.CASCADE)
+#     votes = models.IntegerField(default = 0)
+
+#     def __str__(self):
+#         return (self.team_id)
