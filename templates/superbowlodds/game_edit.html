@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class='col-md-6 mt-4'>
+    <div class='card shadow mb-4'>
+        <div class='card-header py-3'>
+            <h4>Game Information
+                <span class="float-right">
+                    <a class="btn btn-primary" href="{% url 'games' %}">Cancel</a>
+                </span>
+            </h4>
+        </div>
+        <div class='card-body justify-content-center'>
+            
+                <form name="form" method="POST" action="{% url 'update_game' %}">
+                    {% csrf_token %}
+                    <input type="hidden" id="game_id" class='form-control form-control-user' name="game_id" value="{{game.id}}">
+
+                    <label for='team_home'>Home Team:</label>
+                    <input type="text" name="team_home" id="team_home" class='form-control form-control-user' value="{{game.team_home}}" autofocus>
+                    <br>
+
+                    <label for='team_away'>Away Team:</label>
+                    <input type="text" name="team_away" id="team_away" class='form-control form-control-user' value="{{game.team_away}}" autofocus>
+                    <br>
+
+                    <label for='score_home'>Home Score:</label>
+                    <input type="text" name="score_home" id="score_home" class='form-control form-control-user' value="{{game.score_home}}" autofocus>
+                    <br>
+
+                    <label for='score_away'>Away Score:</label>
+                    <input type="text" name="score_away" id="score_away" class='form-control form-control-user' value="{{game.score_away}}">
+                    <br>
+
+                    <label for='stadium'>Stadium:</label>
+                    <input type="text" name="stadium" id="stadium" class='form-control form-control-user' value="{{game.stadium}}">
+                    <br>
+
+                    <label for='schedule_week'>Schedule Week:</label>
+                    <input type="text" name="schedule_week" id="schedule_week" class='form-control form-control-user' value="{{game.schedule_week}}">
+                    <br>
+
+                    <label for='schedule_playoff'>Playoff Game?:</label>
+                    <input type="text" name="schedule_playoff" id="schedule_playoff" class='form-control form-control-user' value="{{game.schedule_playoff}}">
+                    <br>
+
+                    <label for='team_favorite_id'>Favorite ID:</label>
+                    <input type="text" name="team_favorite_id" id="team_favorite_id" class='form-control form-control-user' value="{{game.team_favorite_id}}">
+                    <br>
+
+                    <button type="submit"class='btn btn-success btn-block'>Update Game</button>
+                </form>
+
+        </div>
+    </div>
+</div>
+
+{%  endblock %}

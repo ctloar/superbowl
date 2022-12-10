@@ -27,7 +27,7 @@ def indexPageView(request) :
     return render(request, 'superbowlodds/index.html', context)
 
 def gamesPageView(request) :
-    Team = nfl_scores.objects.all()
+    teams = nfl_scores.objects.all()
 
     # years = []
     # for year in range(1966, 2023):
@@ -37,7 +37,7 @@ def gamesPageView(request) :
 
 
     context = {
-        "teams": Team,
+        "teams" : teams,
     }
 
     return render(request, 'superbowlodds/games.html', context)
@@ -138,3 +138,47 @@ def votingPageView(request, team_id) :
 
 def historyPageView(request) :
     return render(request, 'superbowlodds/history.html')
+
+# Single profile page view
+def showSingleGamePageView(request, game_id) :
+    game = nfl_scores.objects.get(id = game_id)
+
+    context = {
+        "game" : game,
+    }
+    return render(request, 'superbowlodds/game_edit.html', context)
+
+def updateGamesPageView(request):
+    if request.method == 'POST':
+        game_id = request.POST['game_id']
+        game = nfl_scores.objects.get(id=game_id)
+
+        game.team_home = request.POST['team_home']
+        game.team_away = request.POST['team_away']
+        game.score_home = request.POST['score_home']
+        game.score_away = request.POST['score_away']
+        game.stadium = request.POST['stadium']
+        game.schedule_week = request.POST['schedule_week']
+        if (game.schedule_playoff != True) | (game.schedule_playoff != False):
+            game.schedule_playoff = None
+        else:
+            game.schedule_playoff = request.POST['schedule_playoff']
+        game.team_favorite_id = request.POST['team_favorite_id']                    
+
+        game.save()
+        return redirect('games')
+
+    return gamesPageView(request)
+
+def deleteGamePageView(request, game_id):
+    '''
+    It allows the user to delete food items from their food log
+    '''
+    # get the food log of the logged in user
+    game = nfl_scores.objects.get(id=game_id)
+
+    if request.method == 'POST':
+        game.delete()
+        return redirect('games')
+
+    return render(request, 'superbowlodds/game_delete.html')
