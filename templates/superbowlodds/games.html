@@ -3,56 +3,72 @@
 {% block content %}
         <!-- Call to Action-->
         <div class="card text-white bg-secondary my-5 py-4 text-center">
-            <div class="card-body"><p class="text-white m-0"><h1>Select a Game</h1></p></div>
+            <div class="card-body"><p class="text-white m-0"><h1>Select a Game
+                {{ team_home }} {{ team_away }}
+            </h1></p></div>
+            <form name="form" method="POST" action="">
+                {% csrf_token %}
+                {% comment %} url 'filter_games' {% endcomment %}
                 <div class="container">
-                    <p>
-                        <label for="teams"><b>Choose a Team:</b></label>
-                            <select name="teams" id="teams">
+                        <p>
+                            <label for="team1"><b>Choose a Team:</b></label>
+                                <select name="team1" id="team1">
+                                    <option default></option>
+                                    {% for team in team_info %}
+                                        <option>
+                                            <p>
+                                                {{ team.team_name }}
+                                            </p>
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                        </p>
+                    </div>
+                    
+                    <div class="container">
+                        <p>
+                            <label for="team2"><b>Choose an Opponent:</b></label>
+                            <select name="team2" id="team2">
                                 <option default></option>
-                                {% for team in teams %}
-                                    <option value="team"><div class="container">
+                                {% for team in team_info %}
+                                    <option>
                                         <p>
                                             {{ team.team_name }}
                                         </p>
-                                </option>
+                                    </option>
                                 {% endfor %}
                             </select>
-                    </p>
-                </div>
-                <div class="container">
-                    <p>
-                        <label for="teams"><b>Choose a Season:</b></label>
-                            <select name="teams" id="teams">
+                        </p>
+                    </div>
 
-                                <option value="team"><div class="container">
-                                    {% for year in years %}
-                                    <option default></option>
+                    <div class="container">
+                        <p>
+                            <label for="season"><b>Choose a Season:</b></label>
+                            <select name="season" id="season">
+                                <option default>All</option>
+                                {% for year in years %}
+                                    <option>
                                         <p>
-                                            {{ team.schedule_season }}
+                                            {{ year }}
                                         </p>
-                                </option>
+                                    </option>
                                 {% endfor %}
                             </select>
-                    </p>
-                </div>
-                <div class="container">
-                    <p>
-                        <label for="teams"><b>Choose an Opponent:</b></label>
-                        <select name="teams" id="teams">
-                            <option default></option>
-                            {% for team in teams%}
-                                <option value="team"><div class="container">
-                                    <p>
-                                        {{ team.team_away }}
-                                    </p>
-                            </option>
-                            {% endfor %}
-                        </select>
-                    </p>
-                </div>
+                        </p>
+                    </div>
+
+                    <br>
+                    {% if reset %}
+                    <button type='submit' class="btn btn-primary" href="{% url 'games' %}">
+                        Reset
+                    </button>
+                    {% endif %}
+                    <button type='submit' class="btn btn-primary" href="">
+                        Select
+                    </button>
+                </form>
             </div>
         </div>
-            <div class="card-body"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>
         <!-- Content Row-->
         {% comment %} <div class="card text-white bg-secondary my-5 py-4 text-center"> {% endcomment %}
 
@@ -77,9 +93,11 @@
                                 <tr>
                                     <th scope='col' class='col-md-2'>Team Names</th>
                                     <th scope='col' class='col-md-2'>Result</th>
+                                    <th scope='col' class='col-md-2'>Winner</th>
                                     <th scope='col' class='col-md-2'>Location</th>
+                                    <th scope='col' class='col-md-2'>Date</th>
                                     <th scope='col' class='col-md-2'>Week</th>
-                                    <th scope='col' class='col-md-2'>Postseason?</th>
+                                    {% comment %} <th scope='col' class='col-md-2'>Postseason?</th> {% endcomment %}
                                     <th scope='col' class='col-md-2'>Team Favorite</th>
                                     {% comment %} <th scope='col' class='col-md-2'>Spread Favorite</th> {% endcomment %}
                                     {% comment %} <th scope='col' class='col-md-2'>Over/Under</th> {% endcomment %}
@@ -93,10 +111,24 @@
                                 {% for team in teams %}
                                     <tr>
                                         <td class='col-md-2'>
-                                            {{ team.team_home }} vs {{ team.team_away }}
+                                            {{ team.team_home }}
+                                            <br>
+                                            vs
+                                            <br>
+                                            {{ team.team_away }}
                                         </td>
                                         <td class='col-md-2'>
                                             {{ team.score_home }} - {{ team.score_away }}
+                                        </td>
+                                        <td class='col-md-2'>
+                                            {% if team.score_home > team.score_away %}
+                                            {{ team.team_home }}
+                                            {% elif team.score_home == team.score_away %}
+                                            Tie
+                                            {% else %}
+                                            {{ team.team_away }}
+                                            {% endif %}
+
                                         </td>
                                         {% comment %} <td class='col-md-2'>
                                             {{ team.team_home }}: {{ team.score_home }} <BR> {{ team.team_away }}: {{ team.score_away }}
@@ -105,11 +137,14 @@
                                             {{ team.stadium }}
                                         </td>
                                         <td class='col-md-2'>
-                                            {{ team.schedule_week }}
+                                            {{ team.schedule_season }}
                                         </td>
                                         <td class='col-md-2'>
-                                            {{ team.schedule_playoff }}
+                                            {{ team.schedule_week }}
                                         </td>
+                                        {% comment %} <td class='col-md-2'>
+                                            {{ team.schedule_playoff }}
+                                        </td> {% endcomment %}
                                         <td class='col-md-2'>
                                             {{ team.team_favorite_id }}
                                         </td>
@@ -120,7 +155,7 @@
                                             {{ team.over_under_line}}
                                         </td> {% endcomment %}
                                         <td>                          
-                                            <a class="col-md-2 btn btn-primary" href="{% url 'single_game' game_id=team.id %}">Edit</a>
+                                            <a class="btn btn-primary" href="{% url 'single_game' game_id=team.id %}">Edit</a>
                                         </td>
                                         <td>
                                             <a class='btn btn-danger' href="{% url 'delete_game' game_id=team.id %}">
