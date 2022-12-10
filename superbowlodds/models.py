@@ -37,15 +37,8 @@ class nfl_team(models.Model):
     team_conference_pre2002 = models.CharField(max_length=75, blank=True)
     team_division_pre2002 = models.CharField(max_length=75, blank=True)
     games = models.ManyToManyField(nfl_scores, blank=True)
-    # team = models.ForeignKey(nfl_team, on_delete = models.CASCADE)
     votes = models.IntegerField(default = 0)
 
     def __str__(self):
         return (self.team_name)
 
-# class choice(models.Model):
-#     team = models.ForeignKey(nfl_team, on_delete = models.CASCADE)
-#     votes = models.IntegerField(default = 0)
-
-#     def __str__(self):
-#         return f'{self.team.team_name} - {self.votes} votes'

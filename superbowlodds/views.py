@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render, redirect
 from django.db.models import Avg, Max, Min, Sum
 from django.contrib import messages
@@ -27,7 +28,8 @@ def indexPageView(request) :
     return render(request, 'superbowlodds/index.html', context)
 
 def gamesPageView(request) :
-    teams = nfl_scores.objects.all()
+    teams = nfl_scores.objects.all()[:100]
+    
     reset = False
 
     if request.method == 'POST':
@@ -36,12 +38,40 @@ def gamesPageView(request) :
         team_home = request.POST['team1']
         team_away = request.POST['team2']
 
-        if request.POST['season'] == "All":
-            teams = nfl_scores.objects.filter(team_home = team_home, team_away = team_away)
+        team_home = team_home.replace(' ', '')
+        team_away = team_away.replace(' ', '')
+        
+        # x=input()
+        # X=x.replace(' ','')
+        # print''.join([X[i].upper()if x[i].isupper()else X[i].lower()for i in range(len(X))])
+
+        if team_away == '' and team_home == '':
+            teams = nfl_scores.objects.all()[:100]
         else:
-            schedule_season = request.POST['season']
-            teams = nfl_scores.objects.filter(team_home = team_home, team_away = team_away, schedule_season = schedule_season)
+            if request.POST['season'] == "All":
+                if team_away == '':
+                    teams = nfl_scores.objects.filter(team_home = team_home)[:100]
+                elif team_home == '':
+                    teams = nfl_scores.objects.filter(team_away = team_away)[:100]
+                else:
+                    teams = nfl_scores.objects.filter(team_home = team_home, team_away = team_away)
+
+                if len(teams) == 0:
+                    messages.success(request, ("These teams have never played each other before. Try simulating a game between them in the Game Simulation."))
+
+            else:
+                schedule_season = request.POST['season']
+                if team_away == '':
+                    teams = nfl_scores.objects.filter(team_home = team_home, schedule_season = schedule_season)[:100]
+                elif team_home == '':
+                    teams = nfl_scores.objects.filter(team_away = team_away, schedule_season = schedule_season)[:100]
+                else:
+                    teams = nfl_scores.objects.filter(team_home = team_home, team_away = team_away, schedule_season = schedule_season)
+
+                if len(teams) == 0:
+                    messages.success(request, ("This matchup does not exist in the selected year. Try selecting another year."))
         # teams = nfl_scores.objects.filter(team_home = team_home)
+
 
         team_info = nfl_team.objects.all()
 
@@ -93,6 +123,8 @@ def gamesPageView(request) :
     }
 
     return render(request, 'superbowlodds/games.html', context)
+
+
 
 def simulationSelectPageView(request) :
     teams = nfl_team.objects.all()
@@ -178,14 +210,22 @@ def teamsPageView(request) :
     teams = nfl_team.objects.all()
     teams = sorted(teams, key=lambda ur: (-ur.votes))
     games = nfl_scores.objects.all()
+
+    teamVotes = nfl_team.objects.all().aggregate(Max('votes'))
+    teamVotes = teamVotes['votes__max']
+    teamName = nfl_team.objects.filter(votes=teamVotes)
+    teamName = teamName[0]
     
     context = {
         "teams" : teams,
-        "games" : games
+        "games" : games,
+        "teamVotes" : teamVotes,
+        "teamName" : teamName
     }
     return render(request, 'superbowlodds/voting.html', context)
 
 def votingPageView(request, id) :
+    messages.success(request, ("Thank you for voting!"))
     data = nfl_team.objects.get(id = id)
     data.votes = (data.votes + 1)
     data.save()

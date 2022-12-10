@@ -1,6 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+    {% if messages %}
+        {% for message in messages %} 
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+        {% endfor %} 
+    {% endif %}
+    <div class="card-body" style ='text-align: center'>
+        <h2 class="card-title">Super Bowl Voting</h2>
+        <p class="card-text">
+            Vote for whichever team you think will win Super Bowl LVII!
+            <!-- <br>
+            The current vote leader is the {{ teamName }} with {{ teamVotes }} votes. -->
+        </p>
+        <h4 class="card-text">The current vote leader is the {{ teamName }} with {{ teamVotes }} votes.</h4>
+    </div>
         <!-- Call to Action-->
         {% comment %} <div class="card text-white bg-secondary my-5 py-4 text-center"> {% endcomment %}
             {% comment %} <div class="card-body"><p class="text-white m-0">{{ nfl_team.team_name }}</p></div> {% endcomment %}

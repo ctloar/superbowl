@@ -1,17 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+    {% if messages %}
+    {% for message in messages %} 
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+        </div>
+    {% endfor %} 
+    {% endif %}
         <!-- Call to Action-->
         <div class="card text-white bg-secondary my-5 py-4 text-center">
             <div class="card-body"><p class="text-white m-0"><h1>Select a Game
-                {{ team_home }} {{ team_away }}
             </h1></p></div>
             <form name="form" method="POST" action="">
                 {% csrf_token %}
                 {% comment %} url 'filter_games' {% endcomment %}
                 <div class="container">
                         <p>
-                            <label for="team1"><b>Choose a Team:</b></label>
+                            <label for="team1"><b>Choose a Home Team:</b></label>
                                 <select name="team1" id="team1">
                                     <option default></option>
                                     {% for team in team_info %}
@@ -27,7 +36,7 @@
                     
                     <div class="container">
                         <p>
-                            <label for="team2"><b>Choose an Opponent:</b></label>
+                            <label for="team2"><b>Choose an Away Team:</b></label>
                             <select name="team2" id="team2">
                                 <option default></option>
                                 {% for team in team_info %}
@@ -80,18 +89,13 @@
                         <!-- <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p> -->
                     </div>
                     <div class="container text-center"> {% endcomment %}
-                        {% comment %} {% for team in teams %}
-                            <p>
-                                <span class="float-left">{{ team.team_name }}</span>
-                                <span class="">{{ team.votes }}</span>
-                                <a class="btn btn-primary float-right" href="{% url 'voting' team_id=team.id %}">Vote</a>
-                            </p>
-                            {% endfor %} {% endcomment %}
-                            
-                        <table id='votestable' class='table table-hover'>
+
+                    <div class="container">
+                        <table id='gamestable' class='table table-hover'>
                             <thead>
                                 <tr>
-                                    <th scope='col' class='col-md-2'>Team Names</th>
+                                    <th scope='col' class='col-md-2'>Home Team</th>
+                                    <th scope='col' class='col-md-2'>Away Team</th>
                                     <th scope='col' class='col-md-2'>Result</th>
                                     <th scope='col' class='col-md-2'>Winner</th>
                                     <th scope='col' class='col-md-2'>Location</th>
@@ -112,9 +116,8 @@
                                     <tr>
                                         <td class='col-md-2'>
                                             {{ team.team_home }}
-                                            <br>
-                                            vs
-                                            <br>
+                                        </td>
+                                        <td class='col-md-2'>
                                             {{ team.team_away }}
                                         </td>
                                         <td class='col-md-2'>
