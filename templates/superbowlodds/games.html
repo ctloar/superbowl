@@ -12,7 +12,7 @@
                                 {% for team in teams %}
                                     <option value="team"><div class="container">
                                         <p>
-                                            {{ team.team_home }}
+                                            {{ team.team_name }}
                                         </p>
                                 </option>
                                 {% endfor %}
@@ -76,13 +76,15 @@
                             <thead>
                                 <tr>
                                     <th scope='col' class='col-md-2'>Team Names</th>
+                                    <th scope='col' class='col-md-2'>Result</th>
                                     <th scope='col' class='col-md-2'>Location</th>
                                     <th scope='col' class='col-md-2'>Week</th>
                                     <th scope='col' class='col-md-2'>Postseason?</th>
                                     <th scope='col' class='col-md-2'>Team Favorite</th>
-                                    <th scope='col' class='col-md-2'>Spread Favorite</th>
-                                    <th scope='col' class='col-md-2'>Over/Under</th>
+                                    {% comment %} <th scope='col' class='col-md-2'>Spread Favorite</th> {% endcomment %}
+                                    {% comment %} <th scope='col' class='col-md-2'>Over/Under</th> {% endcomment %}
                                     <th scope='col' class='col-md-2'>Edit</th>
+                                    <th scope='col' class='col-md-2'>Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,8 +93,14 @@
                                 {% for team in teams %}
                                     <tr>
                                         <td class='col-md-2'>
-                                            The {{ team.team_home }}: {{ team.score_home }} &nbsp&nbsp  -  &nbsp&nbsp The {{ team.team_away }}: {{ team.score_away }}
+                                            {{ team.team_home }} vs {{ team.team_away }}
                                         </td>
+                                        <td class='col-md-2'>
+                                            {{ team.score_home }} - {{ team.score_away }}
+                                        </td>
+                                        {% comment %} <td class='col-md-2'>
+                                            {{ team.team_home }}: {{ team.score_home }} <BR> {{ team.team_away }}: {{ team.score_away }}
+                                        </td> {% endcomment %}
                                         <td class='col-md-2'>
                                             {{ team.stadium }}
                                         </td>
@@ -105,14 +113,19 @@
                                         <td class='col-md-2'>
                                             {{ team.team_favorite_id }}
                                         </td>
-                                        <td class='col-md-2'>
+                                        {% comment %} <td class='col-md-2'>
                                             {{ team.spread_favorite }}
-                                        </td>
-                                        <td class='col-md-2'>
-                                            Over/Under: {{ team.over_under_line}}
-                                        </td>
+                                        </td> {% endcomment %}
+                                        {% comment %} <td class='col-md-2'>
+                                            {{ team.over_under_line}}
+                                        </td> {% endcomment %}
                                         <td>                          
-                                            <a class="col-md-2 btn btn-primary" href="{% url 'voting' team_id=team.id %}">Edit</a>
+                                            <a class="col-md-2 btn btn-primary" href="{% url 'single_game' game_id=team.id %}">Edit</a>
+                                        </td>
+                                        <td>
+                                            <a class='btn btn-danger' href="{% url 'delete_game' game_id=team.id %}">
+                                                <i>Delete</i>
+                                            </a>                                                
                                         </td>
                                     </tr>
                                 {% endfor %}
