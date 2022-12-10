@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+        <!-- Call to Action-->
+        {% if messages %}
+            {% for message in messages %} 
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+            {% endfor %} 
+        {% endif %}
+        <div class="card text-white bg-secondary my-5 py-4 text-center">
+                <div class="card-body">
+                    <p class="text-white m-0">Select two teams to simulate a game between the two!</p>
+                </div>
+                    <div class="container">
+                        <p>
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <a class="btn btn-primary">Select Team 1</a>
+                                <!--<input name="team1"></input>-->
+                                <select name="team1" id="team1">
+                                    <option default></option>
+                                    {% for team in teams %}
+                                    <option >{{ team.team_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <br><br>
+                                <a class="btn btn-primary">Select Team 2</a>
+                                <!--<input name="team2"></input>-->
+                                <select name="team2" id="team2">
+                                    <option default></option>
+                                    {% for team in teams %}
+                                    <option>{{ team.team_name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <br><br>
+                                <button type='submit' class="btn btn-primary" href="" onclick="show_results()">Simulate</button>
+                            </form>
+                        </p>
+                </div>    
+        </div>
+        <div class="text-center">
+            {% for line in result_message %}
+            <p>{{ line }}</p>
+            {% endfor %}
+        </div>
+
+        {% comment %} <!-- Content Row-->
+        <div class="row gx-4 gx-lg-5">
+            <div class="col-md-4 mb-5">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="card-title">Card One</h2>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+                    </div>
+                    <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-5">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="card-title">Card Two</h2>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>
+                    </div>
+                    <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-5">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="card-title">Card Three</h2>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+                    </div>
+                    <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+    {% comment %} </div> {% endcomment %}
+{%  endblock %}
+<script>
+    function show_results(){
+        console.log('this works');
+        document.getElementById('sim_results').innerHTML = 'The final score was {{team.team_name}}'
+    }
+    
+</script>

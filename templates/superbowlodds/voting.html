@@ -2,11 +2,43 @@
 {% load static %}
 {% block content %}
         <!-- Call to Action-->
-        <div class="card text-white bg-secondary my-5 py-4 text-center">
-            <div class="card-body"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>
-        </div>
+        {% comment %} <div class="card text-white bg-secondary my-5 py-4 text-center"> {% endcomment %}
+            {% comment %} <div class="card-body"><p class="text-white m-0">{{ nfl_team.team_name }}</p></div> {% endcomment %}
+            <div class="container text-center">
+                {% comment %} {% for team in teams %}
+                    <p>
+                        <span class="float-left">{{ team.team_name }}</span>
+                        <span class="">{{ team.votes }}</span>
+                        <a class="btn btn-primary float-right" href="{% url 'voting' team_id=team.id %}">Vote</a>
+                    </p>
+                    {% endfor %} {% endcomment %}
+                    
+                <table id='votestable' class='table table-hover'>
+                    <thead>
+                        <tr>
+                            <th scope='col' class='col-md-2'>Team Name</th>
+                            <th scope='col' class='col-md-2'>Votes</th>
+                            <th scope='col' class='col-md-2'>Add Vote</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% comment %} <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet" />
+                        <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet" /> {% endcomment %}
+                        {% for team in teams %}
+                        <tr>
+                            <td class='col-md-2'>{{ team.team_name }}</td>
+                            <td class='col-md-2'>{{ team.votes }}</td>
+                            <td>                          
+                                <a class="col-md-2 btn btn-primary" href="{% url 'voting' team_id=team.id %}">Vote</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% comment %} </div> {% endcomment %}
         <!-- Content Row-->
-        <div class="row gx-4 gx-lg-5">
+        {% comment %} <div class="row gx-4 gx-lg-5">
             <div class="col-md-4 mb-5">
                 <div class="card h-100">
                     <div class="card-body">
@@ -34,6 +66,5 @@
                     <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div> {% endcomment %}
 {%  endblock %}

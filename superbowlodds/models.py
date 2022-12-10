@@ -23,8 +23,10 @@ class nfl_scores(models.Model):
     weather_wind_mph = models.IntegerField(blank=True)
     weather_humidity = models.IntegerField(blank=True)
     weather_detail = models.CharField(max_length=50, blank=True)
+
     def __str__(self):
-        return (self.result)
+        return f'{self.team_home} - {self.team_away} - {self.schedule_date}'
+
 class nfl_team(models.Model):
     team_name = models.CharField(max_length=75)
     team_name_short = models.CharField(max_length=75)
@@ -35,12 +37,15 @@ class nfl_team(models.Model):
     team_conference_pre2002 = models.CharField(max_length=75, blank=True)
     team_division_pre2002 = models.CharField(max_length=75, blank=True)
     games = models.ManyToManyField(nfl_scores, blank=True)
+    # team = models.ForeignKey(nfl_team, on_delete = models.CASCADE)
+    votes = models.IntegerField(default = 0)
+
     def __str__(self):
         return (self.team_name)
 
-# class vote(models.Model):
+# class choice(models.Model):
 #     team = models.ForeignKey(nfl_team, on_delete = models.CASCADE)
 #     votes = models.IntegerField(default = 0)
 
 #     def __str__(self):
-#         return (self.team_id)
+#         return f'{self.team.team_name} - {self.votes} votes'

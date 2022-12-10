@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+        <!-- Call to Action-->
+        <div class="card text-white bg-secondary my-5 py-4 text-center">
+            <div class="card-body"><p class="text-white m-0"><h1>Select a Game</h1></p></div>
+                <div class="container">
+                    <p>
+                        <label for="teams"><b>Choose a Team:</b></label>
+                            <select name="teams" id="teams">
+                                <option default></option>
+                                {% for team in teams %}
+                                    <option value="team"><div class="container">
+                                        <p>
+                                            {{ team.team_home }}
+                                        </p>
+                                </option>
+                                {% endfor %}
+                            </select>
+                    </p>
+                </div>
+                <div class="container">
+                    <p>
+                        <label for="teams"><b>Choose a Season:</b></label>
+                            <select name="teams" id="teams">
+
+                                <option value="team"><div class="container">
+                                    {% for year in years %}
+                                    <option default></option>
+                                        <p>
+                                            {{ team.schedule_season }}
+                                        </p>
+                                </option>
+                                {% endfor %}
+                            </select>
+                    </p>
+                </div>
+                <div class="container">
+                    <p>
+                        <label for="teams"><b>Choose an Opponent:</b></label>
+                        <select name="teams" id="teams">
+                            <option default></option>
+                            {% for team in teams%}
+                                <option value="team"><div class="container">
+                                    <p>
+                                        {{ team.team_away }}
+                                    </p>
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </p>
+                </div>
+            </div>
+        </div>
+            <div class="card-body"><p class="text-white m-0">This call to action card is a great place to showcase some important information or display a clever tagline!</p></div>
+        <!-- Content Row-->
+        {% comment %} <div class="card text-white bg-secondary my-5 py-4 text-center"> {% endcomment %}
+
+        {% comment %} <div style ='text-align: center' class="row gx-4 gx-lg-5">
+            <div class="col-md-4 mb-5">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="card-title">NFL Games</h2>
+                        <!-- <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p> -->
+                    </div>
+                    <div class="container text-center"> {% endcomment %}
+                        {% comment %} {% for team in teams %}
+                            <p>
+                                <span class="float-left">{{ team.team_name }}</span>
+                                <span class="">{{ team.votes }}</span>
+                                <a class="btn btn-primary float-right" href="{% url 'voting' team_id=team.id %}">Vote</a>
+                            </p>
+                            {% endfor %} {% endcomment %}
+                            
+                        <table id='votestable' class='table table-hover'>
+                            <thead>
+                                <tr>
+                                    <th scope='col' class='col-md-2'>Team Names</th>
+                                    <th scope='col' class='col-md-2'>Location</th>
+                                    <th scope='col' class='col-md-2'>Week</th>
+                                    <th scope='col' class='col-md-2'>Postseason?</th>
+                                    <th scope='col' class='col-md-2'>Team Favorite</th>
+                                    <th scope='col' class='col-md-2'>Spread Favorite</th>
+                                    <th scope='col' class='col-md-2'>Over/Under</th>
+                                    <th scope='col' class='col-md-2'>Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% comment %} <link href="{% static 'css/sb-admin-2.css' %}" rel="stylesheet" />
+                                <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet" /> {% endcomment %}
+                                {% for team in teams %}
+                                    <tr>
+                                        <td class='col-md-2'>
+                                            The {{ team.team_home }}: {{ team.score_home }} &nbsp&nbsp  -  &nbsp&nbsp The {{ team.team_away }}: {{ team.score_away }}
+                                        </td>
+                                        <td class='col-md-2'>
+                                            {{ team.stadium }}
+                                        </td>
+                                        <td class='col-md-2'>
+                                            {{ team.schedule_week }}
+                                        </td>
+                                        <td class='col-md-2'>
+                                            {{ team.schedule_playoff }}
+                                        </td>
+                                        <td class='col-md-2'>
+                                            {{ team.team_favorite_id }}
+                                        </td>
+                                        <td class='col-md-2'>
+                                            {{ team.spread_favorite }}
+                                        </td>
+                                        <td class='col-md-2'>
+                                            Over/Under: {{ team.over_under_line}}
+                                        </td>
+                                        <td>                          
+                                            <a class="col-md-2 btn btn-primary" href="{% url 'voting' team_id=team.id %}">Edit</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% comment %} <div>
+                        {% for team in teams %}
+                        <p>
+                            <h4>FINAL SCORE:</h4><br> 
+                            The {{ team.team_home }}: {{ team.score_home }} &nbsp&nbsp  -  &nbsp&nbsp The {{ team.team_away }}: {{ team.score_away }} <br><br><br>
+
+                            <h5>Other Stats:</h5>
+                            Location: {{ team.stadium }}<br>
+                            Week of the Season: {{ team.schedule_week }}<br>
+                            Was it a postseason game? {{ team.schedule_playoff }}<br><br>
+
+                            <h5>Betting Data:</h5>
+                            Team Favorite: {{ team.team_favorite_id }}<br>
+                            Spread Favorite: {{ team.spread_favorite }}<br>
+                            Over/Under: {{ team.over_under_line}}
+
+                        </p>
+                        {% endfor %}
+                    </div> {% endcomment %}
+
+                    <!-- <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div> -->
+                {% comment %} </div>
+            </div> {% endcomment %}
+            <!-- <div class="col-md-4 mb-5">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="card-title">Card Two</h2>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>
+                    </div>
+                    <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+                </div>
+            </div> -->
+            <!-- <div class="col-md-4 mb-5">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h2 class="card-title">Card Three</h2>
+                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+                    </div>
+                    <div class="card-footer"><a class="btn btn-primary btn-sm" href="#!">More Info</a></div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+{%  endblock %}

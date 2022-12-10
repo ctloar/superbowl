@@ -1,0 +1,15 @@
+/* Messages */
+
+ul.messagelist li {
+    padding-left: 55px;
+    background-position: 30px 12px;
+}
+
+ul.messagelist li.error {
+    background-position: 30px 12px;
+}
+
+ul.messagelist li.warning {
+    background-position: 30px 14px;
+}
+
