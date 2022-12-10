@@ -29,7 +29,7 @@
                             <td class='col-md-2'>{{ team.team_name }}</td>
                             <td class='col-md-2'>{{ team.votes }}</td>
                             <td>                          
-                                <a class="col-md-2 btn btn-primary" href="{% url 'voting' team_id=team.id %}">Vote</a>
+                                <a class="col-md-2 btn btn-primary" href="{% url 'voting' id=team.id %}">Vote</a>
                             </td>
                         </tr>
                     {% endfor %}
