@@ -217,7 +217,10 @@ def teamsPageView(request) :
     teamVotes = nfl_team.objects.all().aggregate(Max('votes'))
     teamVotes = teamVotes['votes__max']
     teamName = nfl_team.objects.filter(votes=teamVotes)
-    teamName = teamName[0]
+    if len(teamName) == 0:
+        teamName = 'Seahawks'
+    else:
+        teamName = teamName[0]
     
     context = {
         "teams" : teams,

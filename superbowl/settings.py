@@ -86,8 +86,8 @@ WSGI_APPLICATION = 'superbowl.wsgi.application'
 #         'NAME': 'superbowl',
 #         'USER' : 'postgres',
 #         'PASSWORD' : '081922',
-#         'HOST' : 'localhost',
-#         # 'PORT' : 5433
+#         'HOST' : 'localhost'
+#         # 'PORT' : 6668
 #     }
 # }
 
