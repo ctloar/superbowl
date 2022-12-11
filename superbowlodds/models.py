@@ -7,10 +7,10 @@ from datetime import datetime, timedelta
 # Create your models here.
 class nfl_scores(models.Model):
     schedule_date = models.DateField(default=datetime.today, blank=True)
-    schedule_season = models.IntegerField(max_length=4)
-    schedule_week = models.CharField(max_length=30)
-    schedule_playoff = models.BooleanField()
-    team_home = models.CharField(max_length=75)
+    schedule_season = models.IntegerField(max_length=4, blank=True)
+    schedule_week = models.CharField(max_length=30, blank=True)
+    schedule_playoff = models.BooleanField(blank=True)
+    team_home = models.CharField(max_length=75) 
     score_home = models.IntegerField(max_length=20, blank=True)
     score_away = models.IntegerField(max_length=20, blank=True)
     team_away = models.CharField(max_length=75)

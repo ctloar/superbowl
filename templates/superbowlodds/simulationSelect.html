@@ -4,15 +4,12 @@
         <!-- Call to Action-->
         {% if messages %}
             {% for message in messages %} 
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert" style="text-align: center;">
                         {{ message }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                 </div>
             {% endfor %} 
         {% endif %}
-        <div class="card text-white bg-secondary my-5 py-4 text-center">
+        <div class="card text-white bg-secondary py-4 text-center" style="margin-bottom: 3rem !important;">
                 <div class="card-body">
                     <h3 class="text-white m-0">Select two teams to simulate a game between the two!</h3>
                 </div>
@@ -20,7 +17,7 @@
                         <p>
                             <form method="POST" action="">
                                 {% csrf_token %}
-                                <a class="btn btn-primary">Select Team 1</a>
+                                <div class="btn text-white">Select Team 1</div>
                                 <!--<input name="team1"></input>-->
                                 <select name="team1" id="team1">
                                     <option default></option>
@@ -29,7 +26,7 @@
                                     {% endfor %}
                                 </select>
                                 <br><br>
-                                <a class="btn btn-primary">Select Team 2</a>
+                                <div class="btn text-white">Select Team 2</div>
                                 <!--<input name="team2"></input>-->
                                 <select name="team2" id="team2">
                                     <option default></option>

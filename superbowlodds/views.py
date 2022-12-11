@@ -137,10 +137,15 @@ def simulationSelectPageView(request) :
         if (request.POST['team1'] == '') or (request.POST['team2'] == ''): 
             messages.success(request, ("Enter a valid team value."))
         elif (request.POST['team1'] == request.POST['team2']): 
-            messages.success(request, ("Enter a different away team."))
+            messages.success(request, ("Please enter different teams."))
         else:
             home_team = request.POST['team1']
             away_team = request.POST['team2']
+
+            favoriteTeam = nfl_team.objects.get(team_name = home_team)
+
+            home_team = home_team.replace(' ', '')
+            away_team = away_team.replace(' ', '')
 
             gameSim.team_home = home_team
             gameSim.team_away = away_team
@@ -157,7 +162,7 @@ def simulationSelectPageView(request) :
 
             location = "Neutral"
 
-            favoriteTeam = nfl_team.objects.get(team_name = home_team)
+
             favorite = favoriteTeam.team_id
 
             if home_score > away_score:
@@ -174,6 +179,7 @@ def simulationSelectPageView(request) :
             gameSim.schedule_season = season
             gameSim.team_favorite_id = favorite
             gameSim.stadium = location
+            
 
 
             result_message = ['FINAL SCORE: ', str(home_score) + ' - ' + str(away_score), result]
